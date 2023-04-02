@@ -11,6 +11,14 @@ export class ContactForm extends Component {
 
   handleSabmit = e => {
     e.preventDefault();
+    const { contacts } = this.props
+const { name } = this.state;
+    if (
+      contacts.find(el => el.name.toLowerCase() === name.toLowerCase())
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
     this.props.addContact(this.state);
     this.setState({ name: '', number: '' });
   };

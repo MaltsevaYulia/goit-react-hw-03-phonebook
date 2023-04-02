@@ -5,7 +5,8 @@ import { Filter } from '../Filter/Filter';
 import { nanoid } from 'nanoid';
 import css from './App.module.css';
 
-const LS_CONTACTS='contacts'
+const LS_CONTACTS = 'contacts'
+
 
 export class App extends Component {
   state = {
@@ -36,12 +37,6 @@ export class App extends Component {
 
   addContact = ({ name, number }) => {
     this.setState(prev => {
-      if (
-        prev.contacts.find(el => el.name.toLowerCase() === name.toLowerCase())
-      ) {
-        alert(`${name} is already in contacts`);
-        return;
-      }
       return {
         contacts: [
           ...prev.contacts,
@@ -63,6 +58,7 @@ export class App extends Component {
   };
 
   render() {
+    const { contacts, filter } = this.state;
     const normalizedFilter = this.state.filter.toLocaleLowerCase();
     const visibleContacts = this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
@@ -70,9 +66,9 @@ export class App extends Component {
     return (
       <div className={css.container}>
         <h1>Phonebook</h1>
-        <ContactForm addContact={this.addContact} />
+        <ContactForm addContact={this.addContact} contacts={contacts} />
         <h2>Contacts</h2>
-        <Filter value={this.state.filter} changeFilter={this.changeFilter} />
+        <Filter value={filter} changeFilter={this.changeFilter} />
         <ContactList contacts={visibleContacts} onDelete={this.deleteContact} />
       </div>
     );
